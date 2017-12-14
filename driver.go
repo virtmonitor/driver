@@ -114,11 +114,11 @@ type NetworkIO struct {
 
 // NetworkInterface Network Interface
 type NetworkInterface struct {
-	Name   string
-	Mac    net.HardwareAddr
-	Bridge string
-	RX     NetworkIO
-	TX     NetworkIO
+	Name    string
+	Mac     net.HardwareAddr
+	Bridges []string
+	RX      NetworkIO
+	TX      NetworkIO
 }
 
 func init() {
