@@ -142,6 +142,12 @@ func AvailableDrivers() (drivers []string) {
 	return
 }
 
+//IsDriver Test if supplied interface implements the Driver interface
+func IsDriver(drv interface{}) bool {
+	_, ok := drv.(Driver)
+	return ok
+}
+
 // RegisterDriver Register Driver
 func RegisterDriver(drv interface{}) (err error) {
 
