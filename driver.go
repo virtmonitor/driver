@@ -54,17 +54,21 @@ type Driver interface {
 // DomainID Domain #ID
 type DomainID uint64
 
+// DomainHypervisor What underlying hypervisor does domain use
+type DomainHypervisor string
+
 // Timestamp Collection timestamp
 type Timestamp int64
 
 // Domain Domain
 type Domain struct {
-	Name   string
-	ID     DomainID
-	UUID   string
-	OSType string
-	Time   Timestamp
-	Flags  DomainFlag
+	Name       string
+	ID         DomainID
+	Hypervisor DomainHypervisor
+	UUID       string
+	OSType     string
+	Time       Timestamp
+	Flags      DomainFlag
 
 	Cpus       []CPU
 	Blocks     []BlockDevice
