@@ -173,7 +173,7 @@ func RegisterDriver(drv interface{}) (err error) {
 		return
 	}
 
-	Drivers[strings.ToUpper(driver.Name())] = driver
+	Drivers[strings.ToUpper(string(driver.Name()))] = driver
 
 	if !driver.Detect() {
 		//log.Printf("RegisterDriver: %s Hypervisor not detected", driver.Name())
