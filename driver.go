@@ -45,7 +45,7 @@ const (
 
 // Driver Driver struct
 type Driver interface {
-	Name() string
+	Name() DomainHypervisor
 	Detect() bool
 	Collect(bool, bool, bool) (map[DomainID]*Domain, error)
 	Close()
