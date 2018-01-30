@@ -153,34 +153,24 @@ func IsDriver(drv interface{}) bool {
 }
 
 // RegisterDriver Register Driver
+// In the future we should pass these errors up to plugins instead of fatal error
 func RegisterDriver(drv interface{}) (err error) {
-
-	//var driver Driver
-	//var ok bool
-
-	//log.Printf("Attempting to register driver: %T", drv)
 
 	driver, ok := drv.(Driver)
 	if !ok {
-		err = fmt.Errorf("RegisterDriver: Invalid type %T", drv)
+		err = fmt.Errorf("RegisterDriver: Type %T does not implement driver.Driver interface", drv)
 		log.Fatal(err)
-		return
 	}
 
 	if driver.Name() == "" {
-		err = fmt.Errorf("RegisterDriver: Empty driver name")
+		err = fmt.Errorf("RegisterDriver: Driver hypervisor name empty")
 		log.Fatal(err)
-		return
 	}
 
-	Drivers[strings.ToUpper(string(driver.Name()))] = driver
+	name := strings.ToUpper(string(driver.Name()))
+	Drivers[name] = driver
 
-	if !driver.Detect() {
-		//log.Printf("RegisterDriver: %s Hypervisor not detected", driver.Name())
-		return
-	}
-
-	//log.Printf("Driver %s registered successfully.", driver.Name())
+	log.Printf("Driver %s registered successfully.", name)
 
 	return
 }
