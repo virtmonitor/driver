@@ -1,16 +1,13 @@
 package driver
 
 import (
-	"fmt"
-	"log"
 	"net"
 	"strconv"
-	"strings"
 )
 
 var (
 	// Drivers Array of available drivers
-	Drivers map[string]Driver
+	Drivers = make(map[string]Driver)
 )
 
 //CPUFlag CPU flag type
@@ -125,10 +122,6 @@ type NetworkInterface struct {
 	TX      NetworkIO
 }
 
-func init() {
-	Drivers = make(map[string]Driver)
-}
-
 //StringToDomainID Convert string to DomainID
 func StringToDomainID(id string) DomainID {
 	domid, err := strconv.ParseUint(id, 10, 64)
@@ -150,27 +143,4 @@ func AvailableDrivers() (drivers []string) {
 func IsDriver(drv interface{}) bool {
 	_, ok := drv.(Driver)
 	return ok
-}
-
-// RegisterDriver Register Driver
-// In the future we should pass these errors up to plugins instead of fatal error
-func RegisterDriver(drv interface{}) (err error) {
-
-	driver, ok := drv.(Driver)
-	if !ok {
-		err = fmt.Errorf("RegisterDriver: Type %T does not implement driver.Driver interface", drv)
-		log.Fatal(err)
-	}
-
-	if driver.Name() == "" {
-		err = fmt.Errorf("RegisterDriver: Driver hypervisor name empty")
-		log.Fatal(err)
-	}
-
-	name := strings.ToUpper(string(driver.Name()))
-	Drivers[name] = driver
-
-	log.Printf("Driver %s registered successfully.", name)
-
-	return
 }
